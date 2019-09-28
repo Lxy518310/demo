@@ -1,5 +1,7 @@
 package com.bootdemo.lmy.demo.model;
 
+import org.apache.ibatis.type.Alias;
+
 /**
  * @author 李
  * @create 2019/9/27 20:49

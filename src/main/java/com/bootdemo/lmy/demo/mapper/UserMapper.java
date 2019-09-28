@@ -1,8 +1,7 @@
 package com.bootdemo.lmy.demo.mapper;
 
 import com.bootdemo.lmy.demo.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,4 +15,12 @@ public interface UserMapper {
             "VALUES(#{name},#{accountId},#{token},#{gmtCreate},#{gmtModified})")
     void addUser(User user);
 
+    @Select("SELECT * FROM t_user WHERE account_id=#{accountId}")
+    User getUser(String accountId);
+
+    @Update("UPDATE T_USER SET(name=#{name},account_id=#{accountId},token=#{token},gmt_modified=#{gmtModified})")
+    int updateUser(User user);
+
+    @Delete("DELETE FROM t_user WHERE id=#{accountId}")
+    int deleteUser(String accountId);
 }
