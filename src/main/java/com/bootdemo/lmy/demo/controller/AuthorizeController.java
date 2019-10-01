@@ -5,14 +5,15 @@ import com.bootdemo.lmy.demo.dto.GithubUser;
 import com.bootdemo.lmy.demo.mapper.UserMapper;
 import com.bootdemo.lmy.demo.model.User;
 import com.bootdemo.lmy.demo.provider.GitHubProvider;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
@@ -36,10 +37,10 @@ public class AuthorizeController {
     @Autowired
     private UserMapper userMapper;
 
-    @GetMapping("callback")
+    @RequestMapping("callback")
     public String callback(@RequestParam(name="code")String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request){
+                           HttpServletRequest request, HttpServletResponse response){
         AccessTokenDTO accessTokenDTO=new AccessTokenDTO();
         accessTokenDTO.setClient_id(id);
         accessTokenDTO.setClient_secret(secret);
@@ -49,20 +50,21 @@ public class AuthorizeController {
         String accessToken= gitHubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser=gitHubProvider.getGithubUser(accessToken);
         if(githubUser!=null){
-//            User user = new User();
-//            user.setToken(UUID.randomUUID().toString());
-//            user.setAccountId(String.valueOf(githubUser.getId()));
-//            user.setName(githubUser.getName());
-//            user.setGmtCreate(System.currentTimeMillis());
-//            user.setGmtModified(user.getGmtCreate());
-            String id=String.valueOf(githubUser.getId());
-//            userMapper.addUser(user);
-            User user =userMapper.getUser(id);
-            System.out.println(user.toString());
-            request.getSession().setAttribute("User",githubUser);
-            return "redirect:index";
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setName(githubUser.getName());
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+//            String id=String.valueOf(githubUser.getId());
+            userMapper.addUser(user);
+//            User user =userMapper.getUserByAccoundId(id);
+//            System.out.println(user.toString());
+            response.addCookie(new Cookie("token",user.getToken()));
+//            request.getSession().setAttribute("User",githubUser);
+            return "redirect:/";
         }else{
-            return "redirect:index";
+            return "redirect:/";
         }
     }
 }

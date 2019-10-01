@@ -16,7 +16,10 @@ public interface UserMapper {
     void addUser(User user);
 
     @Select("SELECT * FROM t_user WHERE account_id=#{accountId}")
-    User getUser(String accountId);
+    User getUserByAccoundId(String accountId);
+
+    @Select("SELECT * FROM t_user WHERE token=#{token}")
+    User getUserByToken(String token);
 
     @Update("UPDATE T_USER SET(name=#{name},account_id=#{accountId},token=#{token},gmt_modified=#{gmtModified})")
     int updateUser(User user);
