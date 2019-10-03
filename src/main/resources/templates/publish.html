@@ -13,7 +13,7 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">小李社区</a>
+                <a class="navbar-brand" href="/">小李社区</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <form class="navbar-form navbar-left">
@@ -45,16 +45,22 @@
     </nav>
     <div class="container-fluid main">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发布</h2>
-<!--            <h4><span class="pull-right">问题</span></h4>-->
+            <div th:if="${error!=null}" class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <span th:text="${error}"></span>
+            </div>
+            <h2><span class="glyphicon glyphicon-plus" style="top:2px;right:4px" aria-hidden="true"></span>
+                <span>发布</span>
+            </h2>
             <hr/>
-            <form action="publish" method="get">
+            <form action="publish" method="post">
                 <div class="form-group">
                     <label for="title"><h3>问题标签（简单扼要）:</h3></label>
                     <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <input type="text" class="form-control" id="title" name="title" placeholder="问题标签.....">
+                        <input type="text" class="form-control" id="title" maxlength="25" x name="title" placeholder="问题标签.....">
                         <div class="input-group-btn">
-                            <select name="type" class="form-control" style="width: auto;margin-left:80px">
+                            <select name="type" class="form-control selectpicker" style="width: auto;margin-left:80px">
                                 <option selected>请选择分类</option>
                                 <option value="">全网</option>
                                 <option value="">本站</option>
@@ -64,11 +70,11 @@
                 </div>
                 <div class="form-group">
                     <label for="text"><h3>问题补充(必填,请参照右侧提示):</h3></label>
-                    <textarea class="form-control" name="text" id="text" rows="8"></textarea>
+                    <textarea class="form-control" name="description" id="text" rows="8" style="resize:none;"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="label"><h3>添加标签:</h3></label>
-                    <input type="text" class="form-control" id="label" name="label" placeholder="添加标签,以逗号','隔开.....">
+                    <input type="text" class="form-control" id="label" name="tag" maxlength="60" placeholder="添加标签,以逗号','隔开.....">
                 </div>
 
                 <div class="form-group">
@@ -76,8 +82,11 @@
                 </div>
             </form>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="padding-left: 10px">
-            <h2>问题发布指南</h2>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="padding-left: 10px;" >
+            <h3>问题发布指南</h3>
+            问题标签<b>:</b> 请用精简的语言描述您发布的问题，不要超过25个字<br>
+            问题补充<b>:</b> 详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关资料<br>
+            选择标签<b>:</b> 选择一个或者多个合适的标签，用逗号隔开,每个标签不要超过10个字<br>
         </div>
     </div>
 </body>

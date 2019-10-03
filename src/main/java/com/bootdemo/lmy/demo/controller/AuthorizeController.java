@@ -48,20 +48,27 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         accessTokenDTO.setRedirect_uri(uri);
         String accessToken= gitHubProvider.getAccessToken(accessTokenDTO);
+        User user =null;
         GithubUser githubUser=gitHubProvider.getGithubUser(accessToken);
         if(githubUser!=null){
-            User user = new User();
-            user.setToken(UUID.randomUUID().toString());
-            user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setName(githubUser.getName());
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-//            String id=String.valueOf(githubUser.getId());
-            userMapper.addUser(user);
-//            User user =userMapper.getUserByAccoundId(id);
-//            System.out.println(user.toString());
+            user=userMapper.getUserByAccoundId(String.valueOf(githubUser.getId()));
+            if(user!=null){
+                user.setToken(UUID.randomUUID().toString());
+                user.setName(githubUser.getName());
+                user.setGmtModified(System.currentTimeMillis());
+                user.setAvatarUrl(githubUser.getAvatar_url());
+                userMapper.updateUser(user);
+            }else{
+                user=new User();
+                user.setToken(UUID.randomUUID().toString());
+                user.setAccountId(String.valueOf(githubUser.getId()));
+                user.setName(githubUser.getName());
+                user.setGmtCreate(System.currentTimeMillis());
+                user.setGmtModified(user.getGmtCreate());
+                user.setAvatarUrl(githubUser.getAvatar_url());
+                userMapper.addUser(user);
+            }
             response.addCookie(new Cookie("token",user.getToken()));
-//            request.getSession().setAttribute("User",githubUser);
             return "redirect:/";
         }else{
             return "redirect:/";

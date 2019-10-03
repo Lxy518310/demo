@@ -1,0 +1,1 @@
+alter table t_question add view_count int null;

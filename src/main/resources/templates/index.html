@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="css/demo.css" rel="stylesheet" />
     <script language="JavaScript" src="js/jQuery.js"></script>
     <script language="JavaScript" src="js/bootstrap.min.js"></script>
 </head>
@@ -12,7 +13,7 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">小李社区</a>
+                <a class="navbar-brand" href="/">小李社区</a>
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -28,7 +29,16 @@
                             登录
                         </a>
                     </li>
+                    <li th:if="${session.user != null}">
+                        <a href="/publish">
+                            发布问题
+                        </a>
+                    </li>
+                    <li th:if="${session.user != null}">
+                        <img class="img-circle" th:src="${session.user.getAvatarUrl()}"style="width: 40px;height: 40px;margin-top: 5px">
+                    </li>
                     <li class="dropdown" th:if="${session.user != null}">
+
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                            aria-expanded="false" th:text="${session.user.getName()}">
                             <span class="caret"></span>
@@ -43,5 +53,94 @@
             </div>
         </div>
     </nav>
+    <div class="container-fluid main">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-th-list" style="top:3px;right:5px" aria-hidden="true"></span>
+                <span>发现</span></h2>
+            <div class="row">
+                <ul class="nav nav-tabs" style="margin-bottom: 20px">
+                    <li><a href="#settings" data-toggle="tab" style="color: red">消灭零回复</a></li>
+                    <li><a href="#recommend" data-toggle="tab">推荐</a></li>
+                    <li><a href="#popular" data-toggle="tab">热门</a></li>
+                    <li class="active"><a href="#upTodate" data-toggle="tab">最新</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="upTodate">
+                        <div class="media content" th:if="${questions!=null}" th:each="question:${questions.questionDTOList}">
+                            <div class="media-left media-middle">
+                                <a href="#">
+                                    <img class="media-object" th:src="${question.getUser().getAvatarUrl()}" style="width: 70px;height: 70px;">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading"><a href="#"><span th:text="${question.getTitle()}"></span></a></h4>
+                                <span th:text="${question.getDescription()}"></span><br>
+                                <span th:text="${question.getTag()}"></span>·<span th:text="${question.getLikeCount()}"></span>人点赞·<span th:text="${question.getViewCount()}"></span>人观看·
+                                <span th:text="${question.getCommentCount()}"></span>人评论
+                            </div>
+                            <hr>
+                        </div>
+                        <nav style="text-align: center">
+                            <ul class="pagination">
+                                <li th:if="${!questions.isFirstPage()}">
+                                    <a href="/?page=1" aria-label="Previous">
+                                        <span aria-hidden="true">&lt;&lt;</span>
+                                    </a>
+                                </li>
+                                <li th:if="${questions.isPreviousPage()}">
+                                    <a th:href="@{/(page=${(questions.page)-1})}">
+                                        <span aria-hidden="true">&lt;</span>
+                                    </a>
+                                </li>
+                                <li th:each="page:${questions.pageNum}" th:class="${questions.page==page}?'active':''">
+                                    <a th:href="@{/(page=${page})}" th:text="${page}"></a>
+                                </li>
+                                <li th:if="${questions.isNextPage()}">
+                                    <a th:href="@{/(page=${(questions.page)+1})}">
+                                        <span aria-hidden="true">&gt;</span>
+                                    </a>
+                                </li>
+                                <li th:if="${!questions.isEndPage()}">
+                                    <a th:href="@{/(page=${questions.totalPage})}" aria-label="Next">
+                                        <span aria-hidden="true">&gt;&gt;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="tab-pane" id="recommend"></div>
+                    <div class="tab-pane" id="popular"></div>
+                    <div class="tab-pane" id="settings"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="border-left:#dddddd 1px solid; padding: 0px 20px 0px 30px;">
+            <div style="padding-top: 10px;">
+                <h3><span style="color: red">new!</span>小李社区资源搜索</h3>
+                <img src="">
+            </div>
+            <div class="row" style="border-bottom:1px solid #dddddd">
+                <div style="display: inline-block;">
+                    <h4>热门话题</h4>
+                </div>
+                <div class="pull-right" style="display: inline-block;margin-top: 10px;">
+                    <a href="">更多>></a>
+                </div>
+                <div>
+                </div>
+            </div>
+            <div class="row" style="border-bottom:1px solid #dddddd">
+                <div style="display: inline-block">
+                    <h4>热门用户</h4>
+                </div>
+                <div class="pull-right" style="display: inline-block;margin-top: 10px;">
+                    <a href="">更多>></a>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

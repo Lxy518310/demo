@@ -1,0 +1,1 @@
+alter table t_question alter column view_count set default 0;

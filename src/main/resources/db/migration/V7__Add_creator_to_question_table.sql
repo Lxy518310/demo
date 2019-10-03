@@ -1,0 +1,1 @@
+alter table t_question add creator varchar(60) not null;
