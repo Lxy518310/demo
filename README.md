@@ -43,3 +43,6 @@
             <password>123456</password>
         </configuration>
     </plugin>
+    
+[MyBatis Generator](http://mybatis.org/generator/)
+#用于自动生成mapperd的工具

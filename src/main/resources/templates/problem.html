@@ -27,9 +27,9 @@
                     </p>
                 </div>
                 <hr>
-                <span class="glyphicon glyphicon-tag" th:text="${problems.getTag()}"></span>
+                <a href="#"><span class="glyphicon glyphicon-tags" th:text="${problems.getTag()}"></span></a>
                 <a th:href="'/publish/'+${problems.getId()}">&nbsp;
-                    <span class="glyphicon glyphicon-tag" aria-hidden="true">编辑</span>
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
                 </a>
 
             </div>

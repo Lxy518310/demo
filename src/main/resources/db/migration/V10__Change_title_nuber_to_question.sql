@@ -1,0 +1,1 @@
+alter table t_question modify title varchar(200) not null;

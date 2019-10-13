@@ -48,7 +48,7 @@ public class PublishController {
             return "/";
         }
         question.setCreator(user.getId());
-        if(question.getId() <= 0){
+        if(question.getId() == null){
             questionService.addQuestion(question);
         }else{
             questionService.updateQuestion(question);
