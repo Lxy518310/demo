@@ -3,62 +3,31 @@
 <head>
     <title>发布 - 小李社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/bootstrap-theme.css" rel="stylesheet" />
-    <link href="css/demo.css" rel="stylesheet" />
-    <script language="JavaScript" src="js/jQuery.js"></script>
-    <script language="JavaScript" src="js/bootstrap.min.js"></script>
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="/static/css/demo.css" rel="stylesheet" />
+    <script language="JavaScript" src="/static/js/jQuery.js"></script>
+    <script language="JavaScript" src="/static/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">小李社区</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="搜索问题,答案">
-                    </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li th:if="${session.user == null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=c3dee334071c1ff8bc12&redirect_uri=http://localhost:8888/callback&scope=user&state=1">
-                            登录
-                        </a>
-                    </li>
-                    <li class="dropdown" th:if="${session.user != null}">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false" th:text="${session.user.getName()}">
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">个人资料</a></li>
-                            <li><a href="#">信息中心</a></li>
-                            <li><a href="#">退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <div class="bottom" th:insert="~{header :: nav}"></div>
     <div class="container-fluid main">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-            <div th:if="${error!=null}" class="alert alert-danger alert-dismissible" role="alert">
+            <div th:if="${session.error!=null}" class="alert alert-danger alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
-                <span th:text="${error}"></span>
+                <span th:text="${session.error}"></span>
             </div>
             <h2><span class="glyphicon glyphicon-plus" style="top:2px;right:4px" aria-hidden="true"></span>
                 <span>发布</span>
             </h2>
             <hr/>
-            <form action="publish" method="post">
+            <form action="/publish" method="post">
                 <div class="form-group">
                     <label for="title"><h3>问题标签（简单扼要）:</h3></label>
                     <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <input type="text" class="form-control" id="title" maxlength="25" x name="title" placeholder="问题标签.....">
+                        <input type="hidden" name="id" th:if="${id!=null}" th:value="${id}">
+                        <input type="text" class="form-control" id="title" maxlength="150"  name="title" th:value="${title}" placeholder="问题标签.....">
                         <div class="input-group-btn">
                             <select name="type" class="form-control selectpicker" style="width: auto;margin-left:80px">
                                 <option selected>请选择分类</option>
@@ -70,19 +39,19 @@
                 </div>
                 <div class="form-group">
                     <label for="text"><h3>问题补充(必填,请参照右侧提示):</h3></label>
-                    <textarea class="form-control" name="description" id="text" rows="8" style="resize:none;"></textarea>
+                    <textarea class="form-control" name="description" id="text" rows="8" th:text="${description}" style="resize:none;"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="label"><h3>添加标签:</h3></label>
-                    <input type="text" class="form-control" id="label" name="tag" maxlength="60" placeholder="添加标签,以逗号','隔开.....">
+                    <input type="text" class="form-control" id="label" name="tag"  th:value="${tag}" maxlength="60" placeholder="添加标签,以逗号','隔开.....">
                 </div>
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success pull-right">发布</button>
+                    <button type="submit" class="btn btn-success btn-block pull-right" style="margin:15px 0px 40px 0px;width:150px">发布</button>
                 </div>
             </form>
         </div>
-        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="padding-left: 10px;" >
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="padding-left: 10px;border-left:#dddddd 1px solid;" >
             <h3>问题发布指南</h3>
             问题标签<b>:</b> 请用精简的语言描述您发布的问题，不要超过25个字<br>
             问题补充<b>:</b> 详细补充您的问题内容，并确保问题描述清晰直观，并提供一些相关资料<br>

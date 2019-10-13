@@ -1,6 +1,10 @@
 body{
     background:#efefef;
 }
+*{
+    margin:0px;
+    padding:0px;
+}
 .main{
     margin:30px;
     background:white;
@@ -15,3 +19,21 @@ body{
     margin-bottom: 8px;
     padding-right: 10px;
 }
+.bottom{
+    margin-bottom: 70px;
+}
+ul li{
+    list-style-type: none;
+}
+a:link{
+    text-decoration:none;
+} /*指正常的未被访问过的链接*/
+a:visited{
+    text-decoration:none;
+} /*指已经访问过的链接*/
+a:hover{
+    text-decoration:none;
+} /*指鼠标在链接*/
+a:active{
+    text-decoration:none;
+} /*指正在点的链接*/

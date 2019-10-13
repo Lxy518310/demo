@@ -23,10 +23,23 @@
     </dependency>
   
 [lombok](https://projectlombok.org/)
-#    导入lombok
+#    导入lombok  自动生成setter/getter方法
 	<dependency>
 		<groupId>org.projectlombok</groupId>
 		<artifactId>lombok</artifactId>
 		<version>1.18.10</version>
 		<scope>provided</scope>
 	</dependency>
+
+[flyway](https://flywaydb.org/)
+#添加Flyway数据库版本管理工具
+    <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>6.0.4</version>
+        <configuration>
+            <url>jdbc:mysql://localhost:3306/demo?characterEncoding=utf8&amp;useUnicode=true&amp;useSSL=false&amp;serverTimezone=UTC</url>
+            <user>root</user>
+            <password>123456</password>
+        </configuration>
+    </plugin>

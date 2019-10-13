@@ -1,20 +1,17 @@
 package com.bootdemo.lmy.demo.controller;
 
-import com.bootdemo.lmy.demo.mapper.QuestionMapper;
-import com.bootdemo.lmy.demo.mapper.UserMapper;
+import com.bootdemo.lmy.demo.dto.QuestionDTO;
 import com.bootdemo.lmy.demo.model.Question;
 import com.bootdemo.lmy.demo.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.omg.CORBA.PRIVATE_MEMBER;
+import com.bootdemo.lmy.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author 李
@@ -24,42 +21,40 @@ import javax.servlet.http.HttpServletResponse;
 public class PublishController {
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @GetMapping("publish")
+    @GetMapping("/publish")
     public String publish(){
         return "publish";
     }
 
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id",required = true) Integer id,Model model){
+        QuestionDTO questionDTO=questionService.getQuestionById(id);
+        model.addAttribute("tag",questionDTO.getTag());
+        model.addAttribute("description",questionDTO.getDescription());
+        model.addAttribute("title",questionDTO.getTitle());
+        model.addAttribute("id",id);
+        return "/publish";
+    }
 
-    @PostMapping("publish")
-    public String publish(Question question, HttpServletRequest request,HttpServletResponse response,Model model){
-        Cookie[] cookies = request.getCookies();
-        User user=null;
-        if(cookies!=null && cookies.length != 0) {
-            for (Cookie cookie : cookies) {
-                if ("token".equals(cookie.getName())) {
-                    String token = cookie.getValue();
-                    user = userMapper.getUserByToken(token);
-                    if (user != null) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                    break;
-                }
-            }
-            if (user == null) {
-                model.addAttribute("error", "请登录后再发布问题");
-                return "publish";
-            }
-            question.setCreator(user.getId());
 
-            question.setGmtCreate(System.currentTimeMillis());
-            question.setGmtModified(question.getGmtCreate());
-            questionMapper.addQuestion(question);
+
+    @PostMapping("/publish")
+    public String publish(Question question, HttpServletRequest request,Model model){
+        User user= (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            model.addAttribute("error", "请登录后再发布问题");
+            return "/";
+        }
+        question.setCreator(user.getId());
+        if(question.getId() <= 0){
+            questionService.addQuestion(question);
+        }else{
+            questionService.updateQuestion(question);
         }
         return "redirect:/";
+
+
     }
 }

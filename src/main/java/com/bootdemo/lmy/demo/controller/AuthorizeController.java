@@ -5,6 +5,7 @@ import com.bootdemo.lmy.demo.dto.GithubUser;
 import com.bootdemo.lmy.demo.mapper.UserMapper;
 import com.bootdemo.lmy.demo.model.User;
 import com.bootdemo.lmy.demo.provider.GitHubProvider;
+import com.bootdemo.lmy.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -37,7 +38,10 @@ public class AuthorizeController {
     @Autowired
     private UserMapper userMapper;
 
-    @RequestMapping("callback")
+    @Autowired
+    private UserService userService;
+
+    @RequestMapping("/callback")
     public String callback(@RequestParam(name="code")String code,
                            @RequestParam(name="state") String state,
                            HttpServletRequest request, HttpServletResponse response){
@@ -48,30 +52,27 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         accessTokenDTO.setRedirect_uri(uri);
         String accessToken= gitHubProvider.getAccessToken(accessTokenDTO);
-        User user =null;
+        User user =new User();
         GithubUser githubUser=gitHubProvider.getGithubUser(accessToken);
         if(githubUser!=null){
-            user=userMapper.getUserByAccoundId(String.valueOf(githubUser.getId()));
-            if(user!=null){
-                user.setToken(UUID.randomUUID().toString());
-                user.setName(githubUser.getName());
-                user.setGmtModified(System.currentTimeMillis());
-                user.setAvatarUrl(githubUser.getAvatar_url());
-                userMapper.updateUser(user);
-            }else{
-                user=new User();
-                user.setToken(UUID.randomUUID().toString());
-                user.setAccountId(String.valueOf(githubUser.getId()));
-                user.setName(githubUser.getName());
-                user.setGmtCreate(System.currentTimeMillis());
-                user.setGmtModified(user.getGmtCreate());
-                user.setAvatarUrl(githubUser.getAvatar_url());
-                userMapper.addUser(user);
-            }
+            user.setToken(UUID.randomUUID().toString());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setName(githubUser.getName());
+            user.setAvatarUrl(githubUser.getAvatar_url());
+            userService.createOrUpdate(user);
             response.addCookie(new Cookie("token",user.getToken()));
             return "redirect:/";
         }else{
             return "redirect:/";
         }
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request,HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie=new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

@@ -3,58 +3,21 @@
 <head>
     <title>小李社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    <link href="css/bootstrap-theme.css" rel="stylesheet" />
-    <link href="css/demo.css" rel="stylesheet" />
-    <script language="JavaScript" src="js/jQuery.js"></script>
-    <script language="JavaScript" src="js/bootstrap.min.js"></script>
+    <link href="/static/css/bootstrap.css" rel="stylesheet" />
+    <link href="/static/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="/static/css/demo.css" rel="stylesheet" />
+    <script language="JavaScript" src="/static/js/jQuery.js"></script>
+    <script language="JavaScript" src="/static/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="/">小李社区</a>
-            </div>
-
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="搜索问题,答案">
-                    </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
-                </form>
-                <ul class="nav navbar-nav navbar-right">
-                    <li th:if="${session.user == null}">
-                        <a href="https://github.com/login/oauth/authorize?client_id=c3dee334071c1ff8bc12&redirect_uri=http://localhost:8888/callback&scope=user&state=1">
-                            登录
-                        </a>
-                    </li>
-                    <li th:if="${session.user != null}">
-                        <a href="/publish">
-                            发布问题
-                        </a>
-                    </li>
-                    <li th:if="${session.user != null}">
-                        <img class="img-circle" th:src="${session.user.getAvatarUrl()}"style="width: 40px;height: 40px;margin-top: 5px">
-                    </li>
-                    <li class="dropdown" th:if="${session.user != null}">
-
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false" th:text="${session.user.getName()}">
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">个人资料</a></li>
-                            <li><a href="#">信息中心</a></li>
-                            <li><a href="#">退出登录</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <div class="bottom" th:insert="~{header :: nav}"></div>
     <div class="container-fluid main">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <div th:if="${#request.getAttribute('error')!=null}" class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <span th:text="${#request.getAttribute('error')}"></span>
+            </div>
             <h2><span class="glyphicon glyphicon-th-list" style="top:3px;right:5px" aria-hidden="true"></span>
                 <span>发现</span></h2>
             <div class="row">
@@ -67,16 +30,17 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="tab-pane active" id="upTodate">
-                        <div class="media content" th:if="${questions!=null}" th:each="question:${questions.questionDTOList}">
+                        <div th:if="${questions!=null}" th:each="question:${questions.questionDTOList}">
                             <div class="media-left media-middle">
                                 <a href="#">
-                                    <img class="media-object" th:src="${question.getUser().getAvatarUrl()}" style="width: 70px;height: 70px;">
+                                    <img class="media-object" th:src="${question.user.getAvatarUrl()}" style="width: 55px;height: 55px;">
                                 </a>
                             </div>
-                            <div class="media-body">
-                                <h4 class="media-heading"><a href="#"><span th:text="${question.getTitle()}"></span></a></h4>
-                                <span th:text="${question.getDescription()}"></span><br>
-                                <span th:text="${question.getTag()}"></span>·<span th:text="${question.getLikeCount()}"></span>人点赞·<span th:text="${question.getViewCount()}"></span>人观看·
+                            <div class="media-left media-middle">
+                                <h4 class="media-heading"><a th:href="'/problem/'+${question.getId()}"><span th:text="${question.getTitle()}"></span></a></h4>
+                                <span th:text="${question.getTag()}"></span> ·
+                                <span th:text="${question.getLikeCount()}"></span>人点赞 ·
+                                <span th:text="${question.getViewCount()}"></span>人观看 ·
                                 <span th:text="${question.getCommentCount()}"></span>人评论
                             </div>
                             <hr>

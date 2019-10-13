@@ -1,19 +1,15 @@
 package com.bootdemo.lmy.demo.provider;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.bootdemo.lmy.demo.dto.AccessTokenDTO;
 import com.bootdemo.lmy.demo.dto.GithubUser;
 import okhttp3.*;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
-
-import javax.websocket.server.PathParam;
-import java.io.IOException;
 
 /**
  * @author 李
- * @create 2019/9/25 23:27
+ * 用于实现GitHub登录,使用OkHttp和fastJson来完成与github的交互
+ * * @create 2019/9/25 23:27
  */
 @Component
 public class GitHubProvider {

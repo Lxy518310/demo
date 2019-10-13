@@ -32,15 +32,20 @@ public class PageDTO {
             nextPage=false;
         }
         pageNum.add(page);
+        int t=1;
         for(int i=1;i<5;i++){
-            if(page+i<=totalPage){
-                pageNum.add(page+i);
-                continue;
-            }
-            if(page-i>=1){
+            if(page==totalPage){
                 pageNum.add(0,page-i);
                 continue;
             }
-        }
+            if(page-i>0 && pageNum.size()<4){
+                pageNum.add(0,page-i);
+                continue;
+            }
+            if(page+t<=totalPage) {
+                pageNum.add(page + (t++));
+                continue;
+            }
+    }
     }
 }
