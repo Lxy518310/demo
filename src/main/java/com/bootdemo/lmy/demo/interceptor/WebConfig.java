@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer{
     public void addInterceptors(InterceptorRegistry registry) {
 
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**")
-                .excludePathPatterns(Arrays.asList("/static/**","/callback"));
+                .excludePathPatterns(Arrays.asList("/static/**","/callback","/problem/**"));
     }
 
 //    用于取消自定义拦截器拦截静态资源（@EnableWebMvc会拦截静态资源）

@@ -37,3 +37,8 @@ a:hover{
 a:active{
     text-decoration:none;
 } /*指正在点的链接*/
+.side{
+    border-left:#dddddd 1px solid;
+    padding: 0px 20px 0px 30px;
+    min-height: 800px;
+}

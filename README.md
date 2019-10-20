@@ -45,4 +45,6 @@
     </plugin>
     
 [MyBatis Generator](http://mybatis.org/generator/)
-#用于自动生成mapperd的工具
+#用于自动生成mapper的工具
+#使用generatorConfig.xml
+#使用org.mybatis.generator.plugins.RowBoundsPlugin 插件完成MyBatis分页功能

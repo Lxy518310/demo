@@ -8,6 +8,7 @@ import com.bootdemo.lmy.demo.provider.GitHubProvider;
 import com.bootdemo.lmy.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import java.util.UUID;
  */
 
 @Controller
+@PropertySource("classpath:application.yml")
 public class AuthorizeController {
 
     @Autowired
@@ -32,7 +34,7 @@ public class AuthorizeController {
     private String id;
     @Value("${github.client.secret}")
     private String secret;
-    @Value("${github.redirect.uri}")
+    @Value("${github.client.uri}")
     private String uri;
 
     @Autowired

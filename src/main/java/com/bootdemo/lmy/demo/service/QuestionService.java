@@ -2,6 +2,9 @@ package com.bootdemo.lmy.demo.service;
 
 import com.bootdemo.lmy.demo.dto.PageDTO;
 import com.bootdemo.lmy.demo.dto.QuestionDTO;
+import com.bootdemo.lmy.demo.exception.CustomizeErrorCode;
+import com.bootdemo.lmy.demo.exception.CustomizeException;
+import com.bootdemo.lmy.demo.mapper.QuestionExtMapper;
 import com.bootdemo.lmy.demo.mapper.QuestionMapper;
 import com.bootdemo.lmy.demo.mapper.UserMapper;
 import com.bootdemo.lmy.demo.model.Question;
@@ -26,6 +29,9 @@ public class QuestionService {
     private QuestionMapper questionMapper;
 
     @Autowired
+    private QuestionExtMapper questionExtMapper;
+
+    @Autowired
     private UserMapper userMapper;
 
     public PageDTO getPageDTO(Integer page, Integer size){
@@ -41,7 +47,6 @@ public class QuestionService {
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_modified desc");
         List<Question> questionList = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds((size * (page - 1)), size));
-//        List<Question> questionList=questionMapper.getQusetionList((size*(page-1)),size);
         List<QuestionDTO> questionDTOList=new ArrayList<QuestionDTO>();
         for(Question question:questionList){
             QuestionDTO questionDTO=new QuestionDTO();
@@ -92,9 +97,12 @@ public class QuestionService {
         }
     }
 
-    public QuestionDTO getQuestionById(Integer id) {
+    public QuestionDTO getQuestionById(Integer id){
         QuestionDTO questionDTO=new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
+        if(question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         BeanUtils.copyProperties(question,questionDTO);
         User user=userMapper.selectByPrimaryKey(questionDTO.getCreator());
         questionDTO.setUser(user);
@@ -114,5 +122,18 @@ public class QuestionService {
             question.setGmtModified(question.getGmtCreate());
             questionMapper.insert(question);
         }
+    }
+
+    public void addViewCount(Integer id) {
+        Question question = new Question();
+        question.setViewCount(1);
+        question.setId(id);
+        questionExtMapper.addViewCount(question);
+//        Question question = questionMapper.selectByPrimaryKey(id);
+//        Question updateQuestion=new Question();
+//        updateQuestion.setViewCount(question.getViewCount()+1);
+//        QuestionExample questionExample=new QuestionExample();
+//        questionExample.createCriteria().andIdEqualTo(id);
+//        questionMapper.updateByExampleSelective(updateQuestion,questionExample);
     }
 }
