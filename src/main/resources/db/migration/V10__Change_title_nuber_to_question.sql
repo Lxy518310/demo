@@ -1,2 +1,1 @@
-alter table t_question modify title varcb
-gireturned_sqlstate har(200) not null;
+alter table t_question modify title varchar(200) not null;

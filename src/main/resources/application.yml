@@ -7,6 +7,13 @@ github:
     secret: 516a2c17c616c4dfe95904e8ee0d5f5320ab6359
     uri: http://localhost:8888/callback
 
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.bootdemo.lmy.demo.mapper
+  mapper-locations: classpath:mapper/*.xml
+
 spring:
   thymeleaf:
     cache: false
@@ -41,14 +48,7 @@ spring:
 
 
 
-  flyway:
-    baselineOnMigrate=true:
 
-mybatis:
-  configuration:
-      map-underscore-to-camel-case: true
-  type-aliases-package: com.bootdemo.lmy.demo.mapper
-  mapper-locations: classpath:mapper/*.xml
 
 
 
