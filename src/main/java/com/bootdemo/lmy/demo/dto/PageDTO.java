@@ -12,15 +12,21 @@ import java.util.List;
 @Data
 public class PageDTO {
     private List<QuestionDTO> questionDTOList;
-    private boolean isFirstPage;
-    private boolean isEndPage;
-    private boolean nextPage;
-    private boolean previousPage;
+    private boolean isFirstPage =true;
+    private boolean isEndPage=false;
+    private boolean nextPage=true;
+    private boolean previousPage=false;
     private int totalPage;
     private int page;
     private List<Integer> pageNum=new ArrayList<Integer>();
 
     public void setPage(int totalPage, Integer page, Integer size) {
+        if(page>totalPage){
+            nextPage=false;
+            isEndPage=true;
+            pageNum.add(page);
+            return;
+        }
         this.page=page;
         this.totalPage=totalPage;
         isFirstPage = page==1?true:false;
@@ -35,8 +41,10 @@ public class PageDTO {
         int t=1;
         for(int i=1;i<5;i++){
             if(page==totalPage){
-                pageNum.add(0,page-i);
-                continue;
+                if(page-i>1){
+                    pageNum.add(0,page-i);
+                    continue;
+                }
             }
             if(page-i>0 && pageNum.size()<4){
                 pageNum.add(0,page-i);

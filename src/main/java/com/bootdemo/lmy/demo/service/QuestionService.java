@@ -40,7 +40,7 @@ public class QuestionService {
         totalPage=totalPage % size==0 ? totalPage / size:totalPage / size + 1;
         if(page<1){
             page=page;
-        }else if(page>totalPage){
+        }else if((page>totalPage||page==totalPage) && totalPage>0){
             page=totalPage;
         }
 
@@ -62,14 +62,13 @@ public class QuestionService {
 
     public PageDTO getPageDTO(Integer id,Integer page, Integer size){
         PageDTO pageDTO=new PageDTO();
-
         QuestionExample example = new QuestionExample();
         example.createCriteria().andCreatorEqualTo(id);
         int totalPage= (int) questionMapper.countByExample(example);
         totalPage=totalPage % size==0 ? totalPage / size:totalPage / size + 1;
         if(page<1){
             page=page;
-        }else if(page>totalPage){
+        }else if((page>totalPage||page==totalPage) && totalPage>0){
             page=totalPage;
         }
         example.createCriteria().andCreatorEqualTo(id);
