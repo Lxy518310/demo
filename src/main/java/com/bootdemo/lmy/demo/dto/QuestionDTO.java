@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class QuestionDTO {
-    private int id;
-    private int creator;
+    private Long id;
+    private Long creator;
     private String title;
     private String description;
     private Long gmtCreate;

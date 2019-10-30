@@ -60,7 +60,7 @@ public class QuestionService {
         return pageDTO;
     }
 
-    public PageDTO getPageDTO(Integer id,Integer page, Integer size){
+    public PageDTO getPageDTO(Long id,Integer page, Integer size){
         PageDTO pageDTO=new PageDTO();
         QuestionExample example = new QuestionExample();
         example.createCriteria().andCreatorEqualTo(id);
@@ -96,11 +96,11 @@ public class QuestionService {
         }
     }
 
-    public QuestionDTO getQuestionById(Integer id){
+    public QuestionDTO getQuestionById(Long id){
         QuestionDTO questionDTO=new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question==null){
-            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+//            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         BeanUtils.copyProperties(question,questionDTO);
         User user=userMapper.selectByPrimaryKey(questionDTO.getCreator());
@@ -123,7 +123,7 @@ public class QuestionService {
         }
     }
 
-    public void addViewCount(Integer id) {
+    public void addViewCount(Long id) {
         Question question = new Question();
         question.setViewCount(1);
         question.setId(id);

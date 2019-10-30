@@ -1,6 +1,9 @@
 package com.bootdemo.lmy.demo.dto;
 
 import lombok.Data;
+import lombok.NonNull;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * @author 李
@@ -8,6 +11,7 @@ import lombok.Data;
  */
 @Data
 public class AccessTokenDTO {
+    @NotNull
     private String client_id;
     private String client_secret;
     private String code;

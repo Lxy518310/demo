@@ -10,4 +10,6 @@ public interface QuestionExtMapper {
      * @mbg.generated Sun Oct 13 23:18:04 CST 2019
      */
     int addViewCount(Question question);
+
+    void intCommentCount(Question question);
 }

@@ -22,7 +22,6 @@ public class WebConfig implements WebMvcConfigurer{
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**")
                 .excludePathPatterns(Arrays.asList("/static/**","/callback","/problem/**"));
     }
@@ -31,6 +30,7 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        WebMvcConfigurer.super.addResourceHandlers(registry);
     }
 }
 

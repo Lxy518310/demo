@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -42,9 +43,10 @@ public class SessionInterceptor implements HandlerInterceptor{
             }
         }
         String path=request.getServletPath();
-        if("/".equals(path)){
+        if("/".equals(path)) {
             return true;
-        }else{
+        }
+        else{
             request.setAttribute("error","没有权限请先登陆");
             request.getRequestDispatcher("/").forward(request,response);
             return false;

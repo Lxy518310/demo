@@ -24,7 +24,7 @@ public class ProblemController {
     private QuestionService questionService;
 
     @GetMapping("/problem/{id}")
-    public String problem(@PathVariable(name = "id") Integer id, Model model, HttpServletRequest request){
+    public String problem(@PathVariable(name = "id") Long id, Model model, HttpServletRequest request){
         User user = (User) request.getSession().getAttribute("user");
         QuestionDTO questionDTO=questionService.getQuestionById(id);
 //        if(user!=null && !questionDTO.getUser().getId().equals(user.getId()) ){
