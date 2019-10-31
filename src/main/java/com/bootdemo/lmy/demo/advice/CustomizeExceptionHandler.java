@@ -19,7 +19,7 @@ import java.io.PrintWriter;
  */
 @ControllerAdvice
 public class CustomizeExceptionHandler {
-    @ExceptionHandler(CustomizeException.class)
+    @ExceptionHandler(Exception.class)
     ModelAndView handle(Throwable ex, Model model,
                         HttpServletRequest request,HttpServletResponse response) {
         String contentType=request.getContentType();

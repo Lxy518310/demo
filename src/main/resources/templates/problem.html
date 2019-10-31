@@ -40,12 +40,18 @@
                     </a>
                 </div>
                 <div>
+                    <input type="hidden" id="question_id" th:if="${id!=null}" th:value="${id}">
                     <span th:text="${problems.getCommentCount()}"></span>个回复
                 </div>
                 <hr>
-<!--                <div th:if="">-->
-<!--                    <div ></div>-->
-<!--                </div>-->
+                <div>
+                    <div>
+                        <textarea id="text" class="form-control" rows="5"></textarea>
+                        <button class="btn btn-success btn-block pull-right" onclick="post()" style="margin:15px 0px 40px 0px;width:150px">
+                            回复
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 <!--        style="border-left:#dddddd 1px solid;"-->

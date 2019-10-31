@@ -12,6 +12,7 @@ import com.bootdemo.lmy.demo.model.Comment;
 import com.bootdemo.lmy.demo.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author 李
@@ -29,6 +30,7 @@ public class CommentService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
+    @Transactional
     public void insert(Comment comment) {
         if(comment.getParentId()==null || comment.getParentId()==0){
             throw  new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
@@ -43,10 +45,13 @@ public class CommentService {
             }
             commentMapper.insert(comment);
         }else{
-            Question question=questionMapper.selectByPrimaryKey(comment.getParentId());
-            if(question==null){
+            Question dbQuestion=questionMapper.selectByPrimaryKey(comment.getParentId());
+            if(dbQuestion==null){
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
+            Question question=new Question();
+            question.setId(dbQuestion.getId());
+            question.setCommentCount(1);
             commentMapper.insert(comment);
             questionExtMapper.intCommentCount(question);
         }

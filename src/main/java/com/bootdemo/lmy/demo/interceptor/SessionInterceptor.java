@@ -43,10 +43,9 @@ public class SessionInterceptor implements HandlerInterceptor{
             }
         }
         String path=request.getServletPath();
-        if("/".equals(path)) {
+        if("/".equals(path) || "/error".equals(path) || "/comment".equals(path)) {
             return true;
-        }
-        else{
+        }else{
             request.setAttribute("error","没有权限请先登陆");
             request.getRequestDispatcher("/").forward(request,response);
             return false;
