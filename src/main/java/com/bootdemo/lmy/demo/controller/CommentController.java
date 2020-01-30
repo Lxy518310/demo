@@ -2,6 +2,7 @@ package com.bootdemo.lmy.demo.controller;
 
 import com.bootdemo.lmy.demo.dto.CommentDTO;
 import com.bootdemo.lmy.demo.dto.ResultDTO;
+import com.bootdemo.lmy.demo.exception.CustomizeErrorCode;
 import com.bootdemo.lmy.demo.model.Comment;
 import com.bootdemo.lmy.demo.model.User;
 import com.bootdemo.lmy.demo.service.CommentService;
@@ -29,9 +30,9 @@ public class CommentController {
     public Object post(@RequestBody CommentDTO commentDTO,
                        HttpServletRequest request){
         User user= (User) request.getSession().getAttribute("user");
-//        if(user == null){
-//            return  ResultDTO.errorof(CustomizeErrorCode.USER_NOT_FOUND);
-//        }
+        if(user == null){
+            return  ResultDTO.errorof(CustomizeErrorCode.USER_NOT_FOUND);
+        }
         Comment comment=new Comment();
         comment.setParentId(commentDTO.getParentId());
         comment.setContent(commentDTO.getContent());
