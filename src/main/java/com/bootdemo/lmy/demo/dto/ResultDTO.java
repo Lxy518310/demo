@@ -4,14 +4,17 @@ import com.bootdemo.lmy.demo.exception.CustomizeErrorCode;
 import com.bootdemo.lmy.demo.exception.CustomizeException;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author 李
  * @create 2019/10/23 21:11
  */
 @Data
-public class ResultDTO {
+public class ResultDTO<T> {
     private Integer code;
     private String message;
+    private T data;
 
     public static ResultDTO errorof(Integer code,String message){
         ResultDTO resultDTO=new ResultDTO();
@@ -38,6 +41,14 @@ public class ResultDTO {
         ResultDTO resultDTO=new ResultDTO();
         resultDTO.setCode(200);
         resultDTO.setMessage("登陆成功");
+        return resultDTO;
+    }
+
+    public static <T> ResultDTO okOf(T t){
+        ResultDTO resultDTO=new ResultDTO();
+        resultDTO.setCode(200);
+        resultDTO.setMessage("登陆成功");
+        resultDTO.setData(t);
         return resultDTO;
     }
 }

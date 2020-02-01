@@ -12,8 +12,6 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     SYS_ERROR(2004,"服务器爆炸了,要不你稍后再试试！！"),
     TYPE_PARAM_WRONG(2005,"评论类型错误或不存在");
 
-    ;
-
     private String message;
     private Integer code;
 

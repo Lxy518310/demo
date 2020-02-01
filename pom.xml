@@ -93,8 +93,14 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
+<!--        添加Apache Commons Lang，用于字符串判断-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
 
-<!--        添加Flyway数据库版本管理工具-->
+        <!--        添加Flyway数据库版本管理工具-->
 <!--        <dependency>-->
 <!--            <groupId>org.flywaydb</groupId>-->
 <!--            <artifactId>flyway-core</artifactId>-->

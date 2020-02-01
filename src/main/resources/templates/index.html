@@ -9,6 +9,15 @@
     <script language="JavaScript" src="/static/js/jQuery.js"></script>
     <script language="JavaScript" src="/static/js/bootstrap.min.js"></script>
 </head>
+<script type="application/javascript">
+    window.onload=function () {
+        var closable=window.localStorage.getItem("closable");
+        if(closable == "true"){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
     <div class="bottom" th:insert="~{header :: nav}"></div>
     <div class="container-fluid main">
@@ -36,12 +45,15 @@
                                     <img class="media-object" th:src="${question.user.getAvatarUrl()}" style="width: 55px;height: 55px;">
                                 </a>
                             </div>
-                            <div class="media-left media-middle">
+                            <div class="media-left media-middle" style="width: 100%">
                                 <h4 class="media-heading"><a th:href="'/problem/'+${question.getId()}"><span th:text="${question.getTitle()}"></span></a></h4>
-                                <span th:text="${question.getTag()}"></span> ·
-                                <span th:text="${question.getLikeCount()}"></span>人点赞 ·
-                                <span th:text="${question.getViewCount()}"></span>人观看 ·
+<!--                                <span th:text="${question.getTag()}"></span> ·-->
+                                <span th:text="${question.getLikeCount()}"></span>人点赞·
+                                <span th:text="${question.getViewCount()}"></span>人观看·
                                 <span th:text="${question.getCommentCount()}"></span>人评论
+                                <div class="pull-right">
+                                    <span th:text="${#dates.format(question.getGmtModified(),'HH:mm:ss')}" title="最后回复时间"></span>
+                                </div>
                             </div>
                             <hr>
                         </div>

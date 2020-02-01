@@ -42,3 +42,32 @@ a:active{
     padding: 0px 20px 0px 30px;
     min-height: 800px;
 }
+.menu{
+    color:#999;
+}
+.menu .icon{
+    margin-left: 10px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu .active{
+    color:#499cf3;
+}
+.menu .icon:hover{
+    color:#499cf3;
+}
+.comment{
+    border-bottom: 1px solid #eee;
+    padding: 10px 0px 10px 0px;
+    word-wrap: break-word;
+    margin-bottom: 5px;
+}
+hr{
+    margin-bottom:8px;
+    margin-top: 8px;
+}
+.well{
+    background-color: white;
+    background-image: none;
+    padding: 10px;
+}

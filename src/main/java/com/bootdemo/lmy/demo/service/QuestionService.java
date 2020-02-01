@@ -96,16 +96,25 @@ public class QuestionService {
         }
     }
 
-    public QuestionDTO getQuestionById(Long id){
+    public QuestionDTO getQuestionDTOById(Long id){
         QuestionDTO questionDTO=new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question==null){
-//            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         BeanUtils.copyProperties(question,questionDTO);
         User user=userMapper.selectByPrimaryKey(questionDTO.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
+    }
+
+
+    public Question getQuestionById(Long id) {
+        Question question = questionMapper.selectByPrimaryKey(id);
+        if(question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
+        return question;
     }
 
     public void updateQuestion(Question question) {

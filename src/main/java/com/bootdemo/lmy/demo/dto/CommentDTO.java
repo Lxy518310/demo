@@ -1,16 +1,21 @@
 package com.bootdemo.lmy.demo.dto;
 
+import com.bootdemo.lmy.demo.model.User;
 import lombok.Data;
-
-import javax.annotation.security.DenyAll;
 
 /**
  * @author 李
- * @create 2019/10/21 23:02
+ * @create 2020/1/31 16:30
  */
 @Data
 public class CommentDTO {
-    private String content;
+    private Long id;
     private Long parentId;
-    private int type;
+    private String content;
+    private Long gmtCreate;
+    private Long gmtModified;
+    private Integer type;
+    private Integer likeCount;
+    private Long commentator;
+    private User user;
 }

@@ -49,7 +49,6 @@ public class SessionInterceptor implements HandlerInterceptor{
             request.setAttribute("error","没有权限请先登陆");
             request.getRequestDispatcher("/").forward(request,response);
             return false;
-
         }
     }
     @Override
